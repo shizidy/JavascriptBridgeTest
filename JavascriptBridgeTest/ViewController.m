@@ -31,6 +31,7 @@
     // Do any additional setup after loading the view.
 }
 
+#pragma mark - initWKWebView
 - (void)initWKWebView {
     WKWebViewConfiguration *config = [[WKWebViewConfiguration alloc] init];
     config.preferences.minimumFontSize = 40;
@@ -38,12 +39,14 @@
     [self.view addSubview:self.wkwebView];
 }
 
+#pragma mark - loadNativeHTML
 - (void)loadNativeHTML {
     NSString *htmlPath = [[NSBundle mainBundle] pathForResource:@"BrigeAPI" ofType:@"html"];
     NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL fileURLWithPath:htmlPath]];
     [self.wkwebView loadRequest:request];
 }
 
+#pragma mark - setUI
 - (void)setUI {
     UIView *btnView = [[UIView alloc] initWithFrame:CGRectMake(50, 500, 300, 300)];
     btnView.backgroundColor = [UIColor orangeColor];
@@ -62,6 +65,7 @@
     [btnView addSubview:callJSBtn];
 }
 
+#pragma mark - initJavascriptBridge
 - (void)initJavascriptBridge {
     self.bridge = [WKWebViewJavascriptBridge bridgeForWebView:self.wkwebView];
     [self.bridge setWebViewDelegate:self];
@@ -82,7 +86,12 @@
 //    }];
 //    [self.bridge callHandler:@"objcCallJS"];
     NSLog(@"调用JS函数");
-    [self.bridge callHandler:@"OCCallJS" data:@{@"key": @"value", @"name": @"wdyzmx"} responseCallback:^(id responseData) {
+    // oc调用jsh函数
+    NSDictionary *params = @{
+        @"key": @"value",
+        @"name": @"wdyzmx"
+    };
+    [self.bridge callHandler:@"OCCallJS" data:params responseCallback:^(id responseData) {
         NSLog(@"OCCallJS responseData==%@", responseData);
     }];
 }

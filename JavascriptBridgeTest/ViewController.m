@@ -96,6 +96,9 @@
     }];
 }
 
+- (void)viewDidDisappear:(BOOL)animated {
+}
+
 #pragma mark - 懒加载
 
 @end
